@@ -8,6 +8,7 @@ If you want to isolate an effect and compare groups, we need to get rid of any o
 2. Loose Match
 
 You can also use the following, which are not discussed in this file.
+
 3. Propensity Score Matching
 4. Alternative: Stratified samples
 
