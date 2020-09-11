@@ -15,6 +15,7 @@ You can also use the following, which are not discussed in this file.
 I will go through each of these and how to perform them in R. 
 
 **What to match on:**
+
 This really is specific to your buisness problem or research question. However, I have described my approach below:
 My approach, especially when working with a lot of data, is to start with looking at the variables I _might_ want to match on.
 I will use the code below to count how many people I have per group per combination of the levels of each potential matching varaible. 
@@ -49,9 +50,11 @@ The breakdown of your groups looks like this:
 The last row suggests that there aren't many controls that have this particular combination of varaibles. It will be impossible to match the 99 people in the target group with the same combination of variables (italicized) without using replacement. I may consider condensing my Unknown Gender group into Female or Male in this case or not using a Gender at all. 
 
 ## 1. The Hard Match:
+
 The hard or strict match looks at each person from a target group and finds someone most like them. For example, if one person in your target group is female, hispanic, age 22, this process iterates through each person in the control group until a match is found. This rigorous matching criterion creates a comparison group that is solely comprised of people that are as similar as possible to those in your target group.
 
 **How to prepare data:**
+
 * You will need to have a grouping variable that's converted into numeric values. 
 * You will need all of your matching variables to also be numeric. 
 * GenMatch cannot run if there are any NA's in your dataframe.
@@ -59,6 +62,7 @@ The hard or strict match looks at each person from a target group and finds some
 * See my repository munging for more information. 
 
 **How to do the match:**
+
 Here is the entire code you will need. I've chosen to use comments next to each line to explain what's happening in the code.
 I use the [GenMatch](https://www.rdocumentation.org/packages/Matching/versions/4.9-7/topics/GenMatch) function as follows: 
 ```
@@ -100,6 +104,7 @@ matches.df = GenMatch(data$group, #define your grouping variable
 
 ```
 **How to pull out matched individuals:**
+
 First you will define a new dataframe called matched.df. 
 You want to bind it to your original dataframe so you can keep all your old information. 
 You can do this with the bind_rows() function. 
@@ -123,8 +128,10 @@ data = data %>%
 
 Now you have a dataframe called matched.df that you can use for analysis!
 
-## The Loose Match:
+## 2. The Loose Match:
+
 **How to prepare data**
+
 Separate your grouping variable into two columns: I usually use yes and no.
 You can do this a number of ways. Here's one:
 1. Separate into two dataframes based on group
@@ -177,6 +184,7 @@ matched.terms.df = students.raw.df %>%
 
 
 ## How to Assess your Match:
+
 For any of the types of matches you want to do, you can create a visualization to see how "good" of a match you have. 
 ```
 library(ggplot2)
@@ -217,6 +225,7 @@ matched.df%>%
  A perfectly matched set will follow x=y line. Let's pretend that the first variable is age. We have Group == "Yes" on the y-axis and Group == "No" on the x-axis. This would mean that the people in Group == "Yes" are systematically _older_ than those in Group == "No".
 
 ## Things to consider:
+
 * How many people did you lose from your group of interest? For example, if you had 500 people in your treatment group you want your match to return as many of those people as possible. 
 * If you are losing a lot of people or getting a parameterization error, you likely need to reduce the number of variables you are trying to match on. 
 * The larger the population of your 'controls', the more options you can match on. 
