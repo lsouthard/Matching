@@ -148,7 +148,10 @@ matched.df%>%
   scale_y_continuous("Yes")
   ```
   This will produce a figure that will roughly look like this. 
-  
+  ![MatchedDataViz](https://github.com/lsouthard/Matching/issues/1#issue-699640225)
+ 
+ A perfectly matched set with follow x=y line. Let's pretend that the first variable is age. We have Group == "Yes" on the y-axis and Group == "No" on the x-axis. This would mean that the people in Group == "Yes" are systematically _older_ than those in Group == "No".
+   
   ## Things to consider:
 * How many people did you lose from your group of interest? For example, if you had 500 people in your treatment group you want your match to return as many of those people as possible. 
 * If you are losing a lot of people or getting a paramertization error, you likely need to reduce the number of variables you are trying to match on. 
