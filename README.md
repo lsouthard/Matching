@@ -203,7 +203,7 @@ matched.df%>%
   ungroup() %>%
   dplyr::select(ntile, Group, predictor, ntile.value) %>%
   spread(Group, ntile.value) %>%
-  ggplot(aes(x = No, y = TW)) +
+  ggplot(aes(x = No, y = Yes)) +
   geom_point(position = "jitter", alpha = 0.2) +
   geom_abline(slope = 1, intercept = 0) +
   facet_wrap(~ predictor, ncol = 2, scales = "free") +
