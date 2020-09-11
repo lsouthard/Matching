@@ -33,18 +33,18 @@ The breakdown of your groups looks like this:
 
 |Group    | Gender | Ethnicity | Count 
 | :---:   | :-:    | :-:       |  :-: |
-| Yes | F | White | 290  
-| Yes | F | Not White | 90  
-| Yes | M | White | 286 
-| Yes | M | Not White | 86 
-| Yes | U | White  | 95 
-|_Yes_ | _U_ | _Not White_  | _99_
-| No | F | White | 1190  
-| No | F | Not White | 980  
-| No | M | White | 1086 
-| No | M | Not White | 986 
-| No | U | White  | 995 
-| **No** | **U** | **Not White**  | **9** 
+| Yes | F | Hispanic | 290  
+| Yes | F | Other | 90  
+| Yes | M | Hispanic | 286 
+| Yes | M | Other | 86 
+| Yes | U | Hispanic  | 95 
+|_Yes_ | _U_ | _Other_  | _99_
+| No | F | Hispanic | 1190  
+| No | F | Other | 980  
+| No | M | Hispanic | 1086 
+| No | M | Other | 986 
+| No | U | Hispanic  | 995 
+| **No** | **U** | **Other**  | **9** 
 
 The last row suggests that there aren't many controls that have this particular combination of varaibles. It will be impossible to match the 99 people in the target group with the same combination of variables (italicized) without using replacement. I may consider condensing my Unknown Gender group into Female or Male in this case or not using a Gender at all. 
 
