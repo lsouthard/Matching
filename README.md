@@ -1,18 +1,61 @@
 # Matching
-Options for creating a matched sample
 This code is to show examples of different ways you can procure a matched sample for analysis using tidyverse. 
 
-## The hard match:
-**When to use:**
-* you have a lot of data
-* you want to isolate an effect, but have a lot of first-level variance
+## Why Match?
+If you want to isolate an effect and compare groups, we need to get rid of any other noise. For example, say you have two people. One person gets tutored and the other does not, then they both take the same test. We want to know if the tutoring sessions were effective. We cannot simply compare the the test grades of these two individuals. We have to _control_ for person-level variables that may be responsible for the different test scores in order to isolate the effectiveness of the tutoring session. Some person-level differences that may influence an person's ability to perform on this test may include prior knowledge, GPA, time since they were a student, etc. We rarely can isolate an effect (that's why it's so important to have good research methodology, but we don't always get that option). Instead, we can approximate with a few different types of matching:
+
+1. Hard Match 
+2. Loose Match
+
+You can also use the following, which are not discussed in this file.
+3. Propensity Score Matching
+4. Alternative: Stratified samples
+
+I will go through each of these and how to perform them in R. 
+
+**What to match on:**
+This really is specific to your buisness problem or research question. However, I have described my approach below:
+My approach, especially when working with a lot of data, is to start with looking at the variables I _might_ want to match on.
+I will use the code below to count how many people I have per group per combination of the levels of each potential matching varaible. 
+```
+data %>%
+group_by(group, matchvar1, matchvar2, matchvar3) %>% 
+summarise(n=n()) %>%  
+ungroup() 
+```
+If I notice that there are very few people in my __control__ group that have a certain combinatons of levels then it'll be hard to match them to my __target__ group. 
+This is especially true if there are more people in the __target__ group with a certain combination than the __control__ group, unless you can use replacement. Using replacement is usually specific to your hypothesis. 
+
+Let's make this more concrete: say we are matching on gender and ethnicity. 
+
+The breakdown of your groups looks like this:
+
+|Group    | Gender | Ethnicity | Count 
+| :---:   | :-:    | :-:       |  :-: |
+| Yes | F | White | 290  
+| Yes | F | Not White | 90  
+| Yes | M | White | 286 
+| Yes | M | Not White | 86 
+| Yes | U | White  | 95 
+|_Yes_ | _U_ | _Not White_  | _99_
+| No | F | White | 1190  
+| No | F | Not White | 980  
+| No | M | White | 1086 
+| No | M | Not White | 986 
+| No | U | White  | 995 
+| **No** | **U** | **Not White**  | **9** 
+
+The last row suggests that tere aren't many controls that have this particular combination of varaibles. It will be impossible to match the 99 people in the target group with the same combination of variables (itailized) without using replacement. I may consider condensing my Unknown Gender group into Female or Male in this case or not using a Gender at all. 
+
+## 1. The Hard Match:
+The hard or strict match looks at each person from a target group and finds someone most like them. For example, if one person in your target group is female, hispanic, age 22, this process iterates through each person in the control group until a match is found. This rigorous matching criterion creates a comparison group that is solely comprised of people that are as similar as possible to those in your target group.
 
 **How to prepare data:**
 * You will need to have a grouping variable that's converted into numeric values. 
 * You will need all of your matching variables to also be numeric. 
 * GenMatch cannot run if there are any NA's in your dataframe.
+* The more people you have in your control, the higher likihood you can match and you can match on more variables! 
 * See my respirotry munging for more information. 
-
 
 **How to do the match:**
 Here is the entire code you will need. I've chosen to use comments next to each line to explain what's happening in the code.
@@ -59,7 +102,7 @@ matched.df = bind_rows(
 Now you have a dataframe called matched.df that you can use for analysis!
 
 
-## The Fuzzy Match:
+## The Loose Match:
 **How to prepare data**
 Separate your grouping variable into two columns: I usually use yes and no.
 You can do this a number of ways. Here's one:
@@ -79,9 +122,8 @@ You can do this a number of ways. Here's one:
     distinct_all()
   all.matched <- rbind(yes, no)
 ```
-Now we are going to do a fuzzy join:
+Now we are going to do a loose match:
 ```
-library(fuzzyjoin)
 matched.df <- matched.df%>% 
   # Start with the group of interest
   filter(Group == 1) %>%
