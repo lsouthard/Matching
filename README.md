@@ -2,7 +2,7 @@
 This code is to show examples of different ways you can procure a matched sample for analysis using tidyverse. 
 
 ## Why Match?
-If you want to isolate an effect and compare groups, we need to get rid of any other noise. For example, say you have two people. One person gets tutored and the other does not, then they both take the same test. We want to know if the tutoring sessions were effective. We cannot simply compare the the test grades of these two individuals. We have to _control_ for person-level variables that may be responsible for the different test scores in order to isolate the effectiveness of the tutoring session. Some person-level differences that may influence an person's ability to perform on this test may include prior knowledge, GPA, time since they were a student, etc. We rarely can isolate an effect (that's why it's so important to have good research methodology, but we don't always get that option). Instead, we can approximate with a few different types of matching:
+If you want to isolate an effect and compare groups, we need to get rid of any other noise. For example, say you have two people. One person gets tutored and the other does not, then they both take the same test. We want to know if the tutoring sessions were effective. We cannot simply compare the the test grades of these two individuals. We have to _control_ for person-level variables that may be responsible for the different test scores in order to isolate the effectiveness of the tutoring session. Some person-level differences that may influence a person's ability to perform on this test may include prior knowledge, GPA, time since they were a student, etc. We rarely can isolate an effect (that's why it's so important to have good research methodology, but we don't always get that option). Instead, we can approximate with a few different types of matching:
 
 1. Hard Match 
 2. Loose Match
@@ -24,7 +24,7 @@ group_by(group, matchvar1, matchvar2, matchvar3) %>%
 summarise(n=n()) %>%  
 ungroup() 
 ```
-If I notice that there are very few people in my __control__ group that have a certain combinatons of levels then it'll be hard to match them to my __target__ group. 
+If I notice that there are very few people in my __control__ group that have certain combinatons of levels then it'll be hard to match them to my __target__ group. 
 This is especially true if there are more people in the __target__ group with a certain combination than the __control__ group, unless you can use replacement. Using replacement is usually specific to your hypothesis. 
 
 Let's make this more concrete: say we are matching on gender and ethnicity. 
@@ -46,7 +46,7 @@ The breakdown of your groups looks like this:
 | No | U | White  | 995 
 | **No** | **U** | **Not White**  | **9** 
 
-The last row suggests that tere aren't many controls that have this particular combination of varaibles. It will be impossible to match the 99 people in the target group with the same combination of variables (itailized) without using replacement. I may consider condensing my Unknown Gender group into Female or Male in this case or not using a Gender at all. 
+The last row suggests that there aren't many controls that have this particular combination of varaibles. It will be impossible to match the 99 people in the target group with the same combination of variables (italicized) without using replacement. I may consider condensing my Unknown Gender group into Female or Male in this case or not using a Gender at all. 
 
 ## 1. The Hard Match:
 The hard or strict match looks at each person from a target group and finds someone most like them. For example, if one person in your target group is female, hispanic, age 22, this process iterates through each person in the control group until a match is found. This rigorous matching criterion creates a comparison group that is solely comprised of people that are as similar as possible to those in your target group.
@@ -56,7 +56,7 @@ The hard or strict match looks at each person from a target group and finds some
 * You will need all of your matching variables to also be numeric. 
 * GenMatch cannot run if there are any NA's in your dataframe.
 * The more people you have in your control, the higher likihood you can match and you can match on more variables! 
-* See my respirotry munging for more information. 
+* See my repository munging for more information. 
 
 **How to do the match:**
 Here is the entire code you will need. I've chosen to use comments next to each line to explain what's happening in the code.
@@ -193,9 +193,9 @@ matched.df%>%
   This will produce a figure that will roughly look like this. 
   ![MatchedDataViz](https://github.com/lsouthard/Matching/issues/1#issue-699640225)
  
- A perfectly matched set with follow x=y line. Let's pretend that the first variable is age. We have Group == "Yes" on the y-axis and Group == "No" on the x-axis. This would mean that the people in Group == "Yes" are systematically _older_ than those in Group == "No".
+ A perfectly matched set will follow x=y line. Let's pretend that the first variable is age. We have Group == "Yes" on the y-axis and Group == "No" on the x-axis. This would mean that the people in Group == "Yes" are systematically _older_ than those in Group == "No".
    
   ## Things to consider:
 * How many people did you lose from your group of interest? For example, if you had 500 people in your treatment group you want your match to return as many of those people as possible. 
-* If you are losing a lot of people or getting a paramertization error, you likely need to reduce the number of variables you are trying to match on. 
-* The larger the population of your 'controls', the more you options you can match on. 
+* If you are losing a lot of people or getting a parameterization error, you likely need to reduce the number of variables you are trying to match on. 
+* The larger the population of your 'controls', the more options you can match on. 
