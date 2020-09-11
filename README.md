@@ -192,8 +192,8 @@ matched.df%>%
   ```
   This will produce a figure that will roughly look like this. 
  
- ![MatchedDataViz](https://github.com/lsouthard/Matching/issues/1#issue-699640225)
- 
+![MatchedDataViz](https://user-images.githubusercontent.com/51967620/92962151-c68c2380-f42d-11ea-8cbc-d9b5d6eb3856.png)
+
  A perfectly matched set with follow x=y line. Let's pretend that the first variable is age. We have Group == "Yes" on the y-axis and Group == "No" on the x-axis. This would mean that the people in Group == "Yes" are systematically _older_ than those in Group == "No".
    
   ## Things to consider:
