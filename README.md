@@ -60,10 +60,20 @@ The hard or strict match looks at each person from a target group and finds some
 
 **How to do the match:**
 Here is the entire code you will need. I've chosen to use comments next to each line to explain what's happening in the code.
+I use the [GenMatch](https://www.rdocumentation.org/packages/Matching/versions/4.9-7/topics/GenMatch) function as follows: 
+```
+matches.df = GenMatch(data$group, 
+                   data[,c("var.1", "var.2", "var.3")], 
+                   exact = c(T, F, F), 
+                   caliper = c(0, 1, 0.5), 
+                   replace = T, ties = F) 
+```
+
+However, this is what my code typically ends up looking like: 
 ```
 library(Matching)
 
-match.ready = GenMatch(data$group, #define your grouping variable 
+matches.df = GenMatch(data$group, #define your grouping variable 
                                Match.ready%>% #pipe in dataframe
                                  #You can do some manipulating of variables for the match that you don't
                                  #want saved in your dataframe here. 
@@ -83,9 +93,9 @@ match.ready = GenMatch(data$group, #define your grouping variable
                                #each one represents a parameter for each of the 6 variables
                                #see documentation on ?Matching for more information
                                exact = c(T,T,T,
-                                         T,F,F),
-                               caliper = c(0,0,0,
-                                           0,1,1),
+                                         F,F,F),
+                               caliper = c(0,1,.5,
+                                           0,1,.5),
                                replace = F, ties = F) 
 
 ```
@@ -95,13 +105,23 @@ You want to bind it to your original dataframe so you can keep all your old info
 You can do this with the bind_rows() function. 
 Pull anyone with a unique match using the indexes. 
 ```
-matched.df = bind_rows(
-  Match.ready[unique(matched.students$matches[,1]),],
-  Match.ready[unique(matched.students$matches[,2]),]
-)
+matches.df = bind_rows(
+                        data[unique(maches.df$matches[,1]),],
+                        data[unique(matches.df$matches[,2]),]
+                       )
 ```
-Now you have a dataframe called matched.df that you can use for analysis!
 
+Another way to do it is like this:
+```
+library(dplyr) 
+library(tibble) 
+
+data = data %>% 
+  rownames_to_column("row.id") %>% 
+  filter(row.id %in% matches$matches[,1:2]) 
+```
+
+Now you have a dataframe called matched.df that you can use for analysis!
 
 ## The Loose Match:
 **How to prepare data**
