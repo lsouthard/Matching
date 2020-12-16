@@ -1,5 +1,5 @@
 # Matching
-This code is to show examples of different ways you can procure a matched sample for analysis using tidyverse. 
+This code is to show examples of different ways you can procure a matched sample for analysis using tidyverse. This information includes contriution from multiple people.  
 
 ## Why Match?
 If you want to isolate an effect and compare groups, we need to get rid of any other noise. For example, say you have two people. One person gets tutored and the other does not, then they both take the same test. We want to know if the tutoring sessions were effective. We cannot simply compare the the test grades of these two individuals. We have to _control_ for person-level variables that may be responsible for the different test scores in order to isolate the effectiveness of the tutoring session. Some person-level differences that may influence a person's ability to perform on this test may include prior knowledge, GPA, time since they were a student, etc. We rarely can isolate an effect (that's why it's so important to have good research methodology, but we don't always get that option). Instead, we can approximate with a few different types of matching:
